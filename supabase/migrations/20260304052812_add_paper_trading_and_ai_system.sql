@@ -265,11 +265,14 @@ CREATE POLICY "Users can delete own market scans"
 -- Add paper_account_id to existing trades table
 DO $$
 BEGIN
-  IF NOT EXISTS (
-    SELECT 1 FROM information_schema.columns
-    WHERE table_name = 'trades' AND column_name = 'paper_account_id'
-  ) THEN
-    ALTER TABLE trades ADD COLUMN paper_account_id uuid REFERENCES paper_accounts(id) ON DELETE SET NULL;
+  -- Some deployments don't have a legacy `trades` table. Only alter if it exists.
+  IF to_regclass('public.trades') IS NOT NULL THEN
+    IF NOT EXISTS (
+      SELECT 1 FROM information_schema.columns
+      WHERE table_name = 'trades' AND column_name = 'paper_account_id'
+    ) THEN
+      ALTER TABLE trades ADD COLUMN paper_account_id uuid REFERENCES paper_accounts(id) ON DELETE SET NULL;
+    END IF;
   END IF;
 END $$;
 
