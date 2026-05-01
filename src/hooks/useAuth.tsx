@@ -21,9 +21,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false)
 
   const checkAdmin = async (userId: string, email?: string) => {
-    if (email === 'master@trading.com') {
-      setIsAdmin(true)
-      return
+    const envList = (import.meta.env.VITE_MASTER_ADMIN_EMAILS as string | undefined) ?? ''
+    const envEmails = envList
+      .split(',')
+      .map(s => s.trim().toLowerCase())
+      .filter(Boolean)
+
+    if (email) {
+      const normalized = email.trim().toLowerCase()
+      if (normalized === 'master@trading.com' || envEmails.includes(normalized)) {
+        setIsAdmin(true)
+        return
+      }
     }
 
     const { data } = await supabase
