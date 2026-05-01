@@ -20,6 +20,18 @@
     - Without this trigger, no user could insert data into any of those tables
 */
 
+-- Create a minimal profiles table if it doesn't exist.
+-- Some earlier migrations/policies may reference `public.profiles`.
+CREATE TABLE IF NOT EXISTS public.profiles (
+  id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  email text,
+  full_name text,
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger
 LANGUAGE plpgsql

@@ -108,8 +108,14 @@ CREATE POLICY "Admins can view all user settings"
   TO authenticated
   USING (public.is_admin());
 
-CREATE POLICY "Admins can view all profiles"
-  ON public.profiles
-  FOR SELECT
-  TO authenticated
-  USING (public.is_admin());
+-- Some deployments don't use a `profiles` table. Only add this policy if it exists.
+DO $$
+BEGIN
+  IF to_regclass('public.profiles') IS NOT NULL THEN
+    CREATE POLICY "Admins can view all profiles"
+      ON public.profiles
+      FOR SELECT
+      TO authenticated
+      USING (public.is_admin());
+  END IF;
+END $$;
