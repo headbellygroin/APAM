@@ -1,0 +1,1 @@
+﻿# Node\nnode_modules\n\n# Env\n.env\n.env.*\n!.env.example\n\n# Build\ndist\n\n# Logs\n*.log\n
