@@ -1,13 +1,19 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables')
-}
+/** False when `.env` is missing — avoids a blank page from throwing at import time. */
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+/**
+ * Always construct a client so imports don't crash the bundle.
+ * When env is missing, calls fail predictably; gate UX with `isSupabaseConfigured`.
+ */
+export const supabase = createClient(
+  supabaseUrl ?? 'https://placeholder.supabase.co',
+  supabaseAnonKey ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.'
+)
 
 export interface Database {
   public: {

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { User, Session } from '@supabase/supabase-js'
-import { supabase } from '@/lib/supabase'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 
 interface AuthContextType {
   user: User | null
@@ -35,6 +35,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setLoading(false)
+      return
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       setUser(session?.user ?? null)
@@ -65,6 +70,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const signUp = async (email: string, password: string) => {
+    if (!isSupabaseConfigured) {
+      return { error: new Error('Missing Supabase configuration: copy .env.example to .env') }
+    }
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -73,6 +81,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const signIn = async (email: string, password: string) => {
+    if (!isSupabaseConfigured) {
+      return { error: new Error('Missing Supabase configuration: copy .env.example to .env') }
+    }
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -81,6 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const signOut = async () => {
+    if (!isSupabaseConfigured) return
     await supabase.auth.signOut()
   }
 

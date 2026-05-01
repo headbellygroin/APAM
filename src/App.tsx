@@ -27,6 +27,7 @@ import MarketDataArchive from '@/pages/MarketDataArchive'
 import APITest from '@/pages/APITest'
 import WheelStrategy from '@/pages/WheelStrategy'
 import CopyTrading from '@/pages/CopyTrading'
+import { isSupabaseConfigured } from '@/lib/supabase'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -269,6 +270,21 @@ function AppRoutes() {
 }
 
 function App() {
+  if (!isSupabaseConfigured) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center justify-center p-8">
+        <h1 className="text-2xl font-semibold text-white mb-3">Supabase env missing</h1>
+        <p className="text-slate-400 text-center max-w-lg mb-4">
+          Copy <code className="text-sky-300">.env.example</code> to <code className="text-sky-300">.env</code> in{' '}
+          <code className="text-sky-300">C:\Bolt Files\APAM</code>, then set{' '}
+          <code className="text-sky-300">VITE_SUPABASE_URL</code> and{' '}
+          <code className="text-sky-300">VITE_SUPABASE_ANON_KEY</code>. Restart{' '}
+          <code className="text-sky-300">npm run dev</code>.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <BrowserRouter>
       <AuthProvider>
