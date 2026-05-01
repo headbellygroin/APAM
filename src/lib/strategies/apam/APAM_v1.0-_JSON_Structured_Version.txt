@@ -1,0 +1,78 @@
+{
+  "APAM_v1.0": {
+    "zone_identification": {
+      "patterns": ["DBR", "RBR", "RBD", "DBD"],
+      "base_criteria": {
+        "min_candles": 1,
+        "max_candles": 6,
+        "wick_to_body_ratio": 2,
+        "min_rejection_atr": 1
+      },
+      "proximal_line": "median_body",
+      "distal_line": "median_wick"
+    },
+    "trend": {
+      "ema_period": 20,
+      "ema_up_slope": 0.01,
+      "ema_down_slope": -0.01,
+      "adx_threshold": 25
+    },
+    "momentum": {
+      "range_percent_levels": {
+        "high": 80,
+        "mid_low": 40,
+        "mid_high": 60,
+        "low": 20
+      },
+      "rsi_period": 14,
+      "divergence_required_for_countertrend": true
+    },
+    "scoring": {
+      "minimum_score": 7,
+      "factors": {
+        "strength": { "weight": 2, "best": "breakout > 2 ATR" },
+        "time": { "weight": 1, "best": "1-3 candles" },
+        "freshness": { "weight": 1.5, "best": "untested 20 bars" },
+        "trend_alignment": { "weight": 2, "best": "with trend" },
+        "momentum_position": { "weight": 1.5, "best": "extreme + divergence" },
+        "reward_potential": { "weight": 2, "best": "RR > 4:1" }
+      }
+    },
+    "execution": {
+      "entry_rules": {
+        "limit_edge": "score >= 8.5",
+        "confirmation": "score >= 7 && score < 8.5"
+      }
+    },
+    "risk_management": {
+      "max_risk_percent": 1,
+      "stop_loss": "distal ± (1-2 ATR)",
+      "partial_exits": {
+        "first": "50% at 1:1",
+        "second": "25% at 2:1",
+        "trail": "ATR trailing stop"
+      },
+      "daily_limits": {
+        "max_drawdown_percent": 3,
+        "max_open_trades": 3
+      }
+    },
+    "timeframes": {
+      "hourly": { "htf": "60m", "mtf": "15m", "ltf": "5m" },
+      "daily": { "htf": "1D", "mtf": "60m", "ltf": "15m" },
+      "weekly": { "htf": "1W", "mtf": "1D", "ltf": "240m" },
+      "monthly": { "htf": "1M", "mtf": "1W", "ltf": "1D" }
+    },
+    "ai_learning": {
+      "log_fields": [
+        "score_breakdown",
+        "entry_type",
+        "rr_result",
+        "win_loss",
+        "volatility_regime"
+      ],
+      "expectancy_formula": "(W * R) - (L * 1)",
+      "drift_threshold_percent": 10
+    }
+  }
+}

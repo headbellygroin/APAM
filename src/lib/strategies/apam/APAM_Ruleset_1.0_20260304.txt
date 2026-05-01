@@ -1,0 +1,304 @@
+Here is the full, clean, industry‑standard, machine‑executable APAM v1.0 Rulebook — formatted so you can copy/paste directly into Word as a complete document. It contains no Surge‑specific language, no trademarked phrasing, and no subjective rules. Everything is quantifiable, backtestable, and structured for AI execution.
+
+Adaptive Price Action Model (APAM) v1.0
+Machine‑Executable Trading Rulebook for AI Systems
+1. Core Concepts and Definitions
+1.1 Price Zones
+Demand Zone (Support Area): A consolidation area from which price rallies strongly. Formed by Drop‑Base‑Rally (DBR) or Rally‑Base‑Rally (RBR) patterns.
+
+Supply Zone (Resistance Area): A consolidation area from which price drops strongly. Formed by Rally‑Base‑Drop (RBD) or Drop‑Base‑Drop (DBD) patterns.
+
+1.2 Zone Lines
+Proximal Line:
+
+Demand: Highest candle body in the base.
+
+Supply: Lowest candle body in the base.
+
+Use median body if outlier candles distort the zone.
+
+Distal Line:
+
+Demand: Lowest wick of the DBR/RBR structure.
+
+Supply: Highest wick of the RBD/DBD structure.
+
+Outlier wicks may be trimmed using median wick values.
+
+1.3 Base Criteria
+A valid base must include:
+
+1–6 candles
+
+Average wick length ≥ 2× average body size
+
+Clear rejection move ≥ 1 ATR from the base
+
+Optional: Volume spike confirming rejection (if volume data is available)
+
+1.4 Trend Definitions
+Uptrend: Higher highs and higher lows + EMA(20) slope > 0
+
+Downtrend: Lower highs and lower lows + EMA(20) slope < 0
+
+Sideways: No clear structure + ADX < 25
+
+1.5 Momentum Position (Replaces “Curve”)
+Measured on the Higher Time Frame (HTF):
+
+High Momentum: Zone located above 80% of the swing range (Fibonacci or regression channel)
+
+Medium Momentum: Zone located between 40–60%
+
+Low Momentum: Zone located below 20% or above 80% without divergence
+
+Divergence: RSI(14) divergence confirms exhaustion at extremes
+
+2. Zone Identification Rules
+2.1 Pattern Recognition
+Demand: DBR or RBR
+
+Supply: RBD or DBD
+
+2.2 Objective Identification Steps
+Scan chart for consolidation clusters (1–6 candles).
+
+Confirm strong rejection using ATR(14):
+
+Rejection move ≥ 1 ATR from base.
+
+Draw proximal and distal lines using body/wick rules.
+
+Trim outlier wicks using median wick if necessary.
+
+Validate zone freshness (see scoring system).
+
+2.3 Zone Validity Filters
+A zone is invalid if:
+
+It has been tested deeply (>50% retrace)
+
+It formed during low‑liquidity periods (overnight, holidays)
+
+It formed during major news spikes (unless filtered by median wick)
+
+3. Trend and Momentum Rules
+3.1 Trend Confirmation
+EMA(20) slope threshold:
+
+Uptrend: slope > +0.01
+
+Downtrend: slope < –0.01
+
+ADX filter:
+
+Trend valid only if ADX > 25
+
+Sideways if ADX < 25
+
+3.2 Momentum Position
+Use HTF swing high/low range
+
+Calculate zone position as % of range
+
+Confirm with RSI(14) divergence for counter‑trend setups
+
+4. Probability Scoring System (10‑Point Model)
+A trade must score ≥ 7/10 to be valid.
+
+Factor	Weight	Best (Full Points)	Good (Half Points)	Poor (0 Points)	Measurement
+Strength	2	Breakout > 2× ATR	1–2× ATR		Compare breakout candle to ATR(14)
+Time in Zone	1	1–3 candles	4–6 candles	>6 candles	Count base candles
+Freshness	1.5	Untested in last 20 HTF bars		>50% retrace or tested recently	Depth % + bar count
+Trend Alignment	2	With trend	Sideways	Against trend	EMA slope + ADX
+Momentum Position	1.5	Extreme + divergence	Mid‑range	Neutral	Fibonacci/regression + RSI
+Reward Potential	2	>4:1 R:R	2–4:1		Distance to next fresh zone
+4.1 Score Interpretation
+8.5–10: High‑quality setup → Limit entry at zone edge
+
+7–8: Medium‑quality setup → Confirmation entry
+
+<7: No trade
+
+5. Execution Logic (Evaluate → Execute → Manage)
+5.1 Evaluate
+Identify HTF trend and momentum
+
+Identify MTF zones
+
+Score setup using 10‑point model
+
+Reject if score < 7
+
+Reject if:
+
+Low liquidity
+
+Major news event upcoming
+
+Spread/slippage abnormally high
+
+5.2 Execute
+Entry Types:
+
+Limit‑Edge Entry: For scores ≥ 8.5
+
+Confirmation Entry: For scores 7–8
+
+Trigger: candle close inside zone or break of structure
+
+Stop‑Market Entry: For breakout confirmation setups
+
+5.3 Manage
+Move stop to breakeven after 1:1 R:R
+
+Take partial profits:
+
+50% at 1:1
+
+25% at 2:1
+
+Trail remainder using ATR(14)
+
+Log trade details for AI learning
+
+6. Risk Management Rules
+6.1 Position Sizing
+Max risk per trade: 1% of account
+
+Position Size
+=
+Account Balance
+×
+0.01
+Entry Price
+−
+Stop Price
+6.2 Stop Loss Placement
+Stop = distal line ± 1–2× ATR(14)
+
+Round to nearest tick
+
+Adjust for volatility regime (high ATR → wider stops)
+
+6.3 Daily Risk Limits
+Max daily drawdown: 3%
+
+Max open trades: 3
+
+No new trades after hitting daily loss limit
+
+6.4 Reward Targets
+Primary target: next opposing fresh zone
+
+Minimum acceptable R:R: 2:1
+
+Use partial exits and trailing stops
+
+7. Time‑Frame Hierarchy
+Purpose	Curve/Momentum (HTF)	Trend (MTF)	Zones/Entry (LTF)
+Hourly Income	60‑min	15‑min	5‑min
+Daily Income	Daily	60‑min	15‑min
+Weekly Income	Weekly	Daily	240/60‑min
+Monthly Income	Monthly	Weekly	Daily
+7.1 Alignment Rules
+HTF defines trend and momentum
+
+MTF defines zone quality
+
+LTF defines entry trigger
+
+All three must align for valid trades
+
+8. Advanced Logic Module
+8.1 Counter‑Trend Trades
+Allowed only if:
+
+RSI divergence present
+
+ADX < 30
+
+Score ≥ 8
+
+Momentum extreme (>80% or <20%)
+
+8.2 Volatility Regime Adjustments
+High ATR → wider stops, smaller size
+
+Low ATR → tighter stops, normal size
+
+8.3 Session Filters
+Avoid low‑liquidity sessions
+
+Prefer high‑volume sessions (e.g., NY open)
+
+9. AI Learning, Drift, and Evolution Rules
+9.1 Trade Logging
+AI must log:
+
+Score breakdown
+
+Entry type
+
+R:R achieved
+
+Win/loss
+
+Market conditions
+
+Volatility regime
+
+9.2 Expectancy Evaluation
+AI calculates expectancy every 50 trades:
+
+Expectancy
+=
+(
+𝑊
+⋅
+𝑅
+)
+−
+(
+𝐿
+⋅
+1
+)
+If expectancy improves with modified thresholds → flag for review.
+
+9.3 Drift Detection
+If AI’s modified rules outperform base APAM by >10% over 50 trades, AI may propose:
+
+Adjusted scoring weights
+
+Adjusted ATR multipliers
+
+Adjusted entry logic
+
+User approval required before adopting changes.
+
+9.4 Optimization
+AI may run:
+
+Monte Carlo simulations
+
+Historical backtests
+
+Volatility clustering analysis
+
+Changes must be validated before deployment.
+
+10. Summary of AI Behavior
+Follow APAM rules strictly
+
+Reject trades with score < 7
+
+Prioritize trend‑aligned setups
+
+Use volatility‑adjusted stops
+
+Manage risk with strict 1% rule
+
+Log all trades for learning
+
+Propose improvements only after statistical validation
