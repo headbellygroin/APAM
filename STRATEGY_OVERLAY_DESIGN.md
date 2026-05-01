@@ -229,30 +229,27 @@ class StrategyBlender {
 
 For **market-wide scans** (AI Recommendations / Live Signals / background runner), behavior is driven by **multiple parallel base strategies**, not overlay toggles on Settings.
 
-## Master AI Behavior
+## Multi-account overlay behavior (conceptual)
 
-The Master AI can also use layered strategies:
+Any account that supports overlays can combine a **base** strategy with weighted layers, for example:
 
 ```
-Master AI Configuration:
-├─ Base: APAM (evolved from best training AI)
-├─ Fibonacci OR: 60% (proven in 127 trades, 68% win rate)
-├─ Volume Surge: 45% (proven in 89 trades, 61% win rate)
-└─ News Filter: 80% (veto enabled, prevents earnings disasters)
+Example configuration:
+├─ Base: APAM
+├─ Fibonacci OR: 60%
+├─ Volume Surge: 45%
+└─ News Filter: 80% (veto enabled)
 ```
 
-Master AI updates overlay weights based on:
-- Historical performance of each overlay
-- Recent drift in effectiveness
-- Market regime changes
+Overlay influence can shift based on historical performance, drift signals, and regime context—the exact rules live in application code.
 
 ## Benefits
 
 1. **Flexibility**: Test different strategy combinations
 2. **Gradual Rollout**: Start overlay at 20%, increase if proven
 3. **Risk Control**: Overlays can veto dangerous trades
-4. **Specialization**: Different AIs can emphasize different overlays
-5. **Evolution**: Master AI optimizes overlay weights over time
+4. **Specialization**: Different accounts can emphasize different overlays
+5. **Evolution**: Automated tuning may adjust overlay weights where implemented
 6. **Explainability**: Clear reasoning for each signal component
 
 ## Implementation Phases
@@ -267,7 +264,7 @@ Master AI updates overlay weights based on:
 - More overlay strategies (Volume, News, etc.)
 - Performance tracking per overlay
 - Auto-weight optimization
-- Master AI overlay evolution
+- Cross-account overlay tuning where configured
 
 **Phase 3 (Advanced):**
 - Overlay conflict resolution strategies

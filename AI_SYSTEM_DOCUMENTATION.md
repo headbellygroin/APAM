@@ -57,25 +57,17 @@ Tradier API (15-min delayed)
 
 ### Multi-Tier AI Structure
 
-The platform implements a **generational AI evolution system** with three tiers:
+The platform implements a **multi-account AI evolution model** with:
 
-1. **Training AI Accounts** (Generation 0)
-   - Multiple AI instances run simultaneously on paper trading accounts
-   - Each uses different strategy configurations and risk parameters
-   - Compete against each other to find profitable patterns
-   - Track record stored in `ai_training_accounts` table
+1. **Training AI accounts**
+   - Multiple instances run on paper trading accounts with different strategies and risk parameters.
+   - Track record stored in `ai_training_accounts` and related tables.
 
-2. **Master AI** (Generation 1)
-   - Spawned from successful training accounts (performance threshold)
-   - Manages its own paper trading account with real capital
-   - Can spawn child training accounts to test new ideas
-   - Tracks lineage and evolution path
+2. **Evolved rulesets**
+   - Patterns that survive validation can be codified in `ai_evolved_rulesets`.
+   - Versioned with performance metadata for comparison over time.
 
-3. **Evolved Rulesets** (Meta-layer)
-   - Successful patterns discovered by training AIs are codified
-   - Stored in `ai_evolved_rulesets` table
-   - Can be promoted to production strategies
-   - Version controlled with performance metrics
+Additional orchestration and promotion logic lives in the codebase but is not documented here.
 
 ---
 
@@ -83,7 +75,7 @@ The platform implements a **generational AI evolution system** with three tiers:
 
 ### 1. Main AI Engine (`src/lib/aiEngine.ts`)
 
-**Purpose**: Generate trade recommendations from registered **base strategies**, optional drift (personal AI), and Master AI weight hints.
+**Purpose**: Generate trade recommendations from registered **base strategies** and optional per-account drift (personal AI learning).
 
 **Key APIs** (current intent):
 - `generateRecommendation(symbol, userId?, strategyId?)` — evaluates **one symbol** with the strategy identified by `strategyId` (defaults to first registered base strategy if omitted/invalid).
@@ -103,9 +95,9 @@ The platform implements a **generational AI evolution system** with three tiers:
 
 **Key Functions**:
 - `trackEvolutionState()`: Records AI decisions and parameter changes
-- `promoteToMaster()`: Elevates high-performing training AI
 - `spawnChildAccount()`: Creates new training AI with mutated parameters
 - `rollbackDrift()`: Reverts unsuccessful parameter changes
+- Promotion / lifecycle helpers exist in code where configured.
 
 **Evolution Mechanics**:
 - Performance thresholds determine promotion eligibility
@@ -138,35 +130,7 @@ The platform implements a **generational AI evolution system** with three tiers:
 2. Revert to last known good configuration
 3. Optionally spawn new training account to test alternative approach
 
-### 4. Master AI Orchestrator (`src/lib/masterAIOrchestrator.ts`)
-
-**Purpose**: Coordinate multiple AI instances and manage meta-strategy
-
-**Key Functions**:
-- `evaluateTrainingAccounts()`: Compare performance across all training AIs
-- `decideSpawn()`: Determine when/what to spawn based on portfolio needs
-- `allocateCapital()`: Distribute capital among AI instances
-- `consolidateSignals()`: Aggregate signals from multiple AIs
-
-**Meta-Strategy**:
-- Portfolio diversification across AI approaches
-- Ensemble learning (combine multiple AI signals)
-- Resource allocation based on recent performance
-- Automatic scaling (more capital to winners, less to losers)
-
-**Spawn Decision Logic**:
-```
-IF training_ai.win_rate > 60% AND profit > 10%
-  → Promote to Master AI
-
-IF master_ai discovers new pattern
-  → Spawn training AI to validate pattern
-
-IF portfolio lacks exposure to sector/timeframe
-  → Spawn specialized training AI
-```
-
-### 5. Pattern Discovery (`src/lib/patternDiscovery.ts`)
+### 4. Pattern Discovery (`src/lib/patternDiscovery.ts`)
 
 **Purpose**: Automatically identify recurring profitable patterns
 
@@ -188,7 +152,7 @@ IF portfolio lacks exposure to sector/timeframe
 4. If validated → save to `ai_discovered_patterns`
 5. If consistently profitable → promote to `ai_evolved_rulesets`
 
-### 6. Signal Tracking (`src/lib/signalTrackRecord.ts`)
+### 5. Signal Tracking (`src/lib/signalTrackRecord.ts`)
 
 **Purpose**: Maintain track record for all AI-generated signals
 
@@ -214,7 +178,7 @@ IF portfolio lacks exposure to sector/timeframe
 - New training account created with initial capital (typically $10,000 virtual)
 - Assigned strategy parameters (randomly mutated or inherited from parent)
 - Linked to parent account via `account_lineage` table
-- Logged in `master_ai_spawn_log` with action='spawn'
+- Spawn and lifecycle actions are logged (see spawn log table in schema)
 
 **Phase 2: Training**
 - Executes trades based on assigned strategy
@@ -229,31 +193,10 @@ IF portfolio lacks exposure to sector/timeframe
 - Decision: promote, continue, or terminate
 
 **Phase 4: Promotion or Termination**
-- **Promote**: If performance exceeds threshold → becomes Master AI
-  - Gets real capital allocation from main account
-  - Can spawn its own child training accounts
-  - Logged as action='promote' in spawn log
+- **Promote** or **terminate** paths depend on configured thresholds and application logic; outcomes are recorded for auditing.
 - **Terminate**: If underperforming → account closed
-  - Capital returned to pool
   - Strategy parameters logged as unsuccessful
   - Logged as action='terminate'
-
-### Master AI Capabilities
-
-**Spawning Children**:
-- Master AI can create 2-5 child training accounts
-- Children test variations of parent strategy
-- Exploration vs exploitation balance
-
-**Capital Management**:
-- Starts with allocated capital (e.g., $50,000 virtual)
-- Can request more capital based on performance
-- Can distribute capital to child accounts
-
-**Strategy Evolution**:
-- Learns from child account performance
-- Integrates successful child strategies
-- Abandons unsuccessful approaches
 
 ---
 
@@ -409,7 +352,7 @@ Concrete implementations extend **`TradingStrategy`**: zone detection, curve/tre
 - `ai_discovered_patterns`: Patterns found by discovery engine
 - `ai_evolved_rulesets`: Codified strategies ready for production
 - `account_lineage`: Parent-child relationships between AIs
-- `master_ai_spawn_log`: History of spawns/promotions/terminations
+- Spawn / lifecycle log table: history of spawns, promotions, terminations (see migrations for exact name)
 
 ### Events & Anomalies
 - `real_world_events`: External events affecting markets
@@ -476,17 +419,6 @@ Every 7 days:
   4. If pattern found → save to ai_discovered_patterns
   5. Backtest pattern on historical data
   6. If validated → add to strategy rotation
-```
-
-### 6. Master AI Evaluation Loop
-```
-Every 30 days:
-  1. Evaluate all training accounts
-  2. Rank by performance metrics
-  3. Top performer(s) → promote to Master AI
-  4. Bottom performers → terminate
-  5. Master AIs decide whether to spawn new children
-  6. Allocate capital based on recent performance
 ```
 
 ---
@@ -597,27 +529,22 @@ Actual Size = min(Calculated Size, Max Position Size)
    - Performance comparison
    - Spawn/terminate controls
 
-4. **Master AI** (`src/pages/MasterAI.tsx`)
-   - Master AI orchestrator dashboard
-   - Spawning decisions
-   - Capital allocation
-
-5. **Pattern Discovery** (`src/pages/PatternDiscovery.tsx`)
+4. **Pattern Discovery** (`src/pages/PatternDiscovery.tsx`)
    - Discovered patterns library
    - Pattern validation results
    - Promotion to production
 
-6. **Historical Fleet** (`src/pages/HistoricalFleet.tsx`)
+5. **Historical Fleet** (`src/pages/HistoricalFleet.tsx`)
    - Backtest configuration
    - Fleet performance comparison
    - Export winners to live
 
-7. **Analytics** (`src/pages/Analytics.tsx`)
+6. **Analytics** (`src/pages/Analytics.tsx`)
    - Deep performance metrics
    - Trade analysis
    - Strategy comparison
 
-8. **AI Rulebook** (`src/pages/AIRulebook.tsx`)
+7. **AI Rulebook** (`src/pages/AIRulebook.tsx`)
    - View/edit AI decision rules
    - Parameter tuning
    - Strategy selection
@@ -692,7 +619,7 @@ Actual Size = min(Calculated Size, Max Position Size)
 ## Key Files Reference
 
 - **AI Engines**: `src/lib/aiEngine.ts`, `src/lib/aiEvolution.ts`, `src/lib/aiDriftEngine.ts`
-- **Orchestration**: `src/lib/masterAIOrchestrator.ts`, `src/lib/masterAI.ts`
+- **Additional orchestration**: Other modules under `src/lib/` coordinate multi-account flows as implemented.
 - **Pattern Discovery**: `src/lib/patternDiscovery.ts`, `src/lib/signalTrackRecord.ts`
 - **Trading**: `src/lib/tradierTrading.ts`, `src/lib/tradeSimulator.ts`
 - **Data**: `src/lib/tradierApi.ts`, `src/lib/marketData.ts`

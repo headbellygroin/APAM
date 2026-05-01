@@ -8,7 +8,7 @@ High-level markdown maintained alongside the app (omit `node_modules`).
 | [PROJECT_WORKFLOW.md](./PROJECT_WORKFLOW.md) | Developers | Git, Bolt.new, Supabase migrations, localStorage keys |
 | [PLATFORM_OVERVIEW.md](./PLATFORM_OVERVIEW.md) | Users / PM | Features, pages, env hints |
 | [AI_SYSTEM_DOCUMENTATION.md](./AI_SYSTEM_DOCUMENTATION.md) | Engineers | Architecture, AI engine APIs, schema overview (**rotate keys if ever pasted**) |
-| [FEATURE_GUIDE.md](./FEATURE_GUIDE.md) | Power users | Master AI, real-world events, anomalies |
+| [FEATURE_GUIDE.md](./FEATURE_GUIDE.md) | Power users | Real-world events, anomalies, historical fleet |
 | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) | Operators | Short tables and workflows |
 | [SYSTEM_FEATURES.md](./SYSTEM_FEATURES.md) | Support | FAQ-style explanations |
 | [STRATEGY_OVERLAY_DESIGN.md](./STRATEGY_OVERLAY_DESIGN.md) | Designers / engineers | Overlay layering model |

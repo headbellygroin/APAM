@@ -61,30 +61,6 @@ This creates realistic training where AIs:
 
 ---
 
-## Master AI Trading & Updates
-
-**Q: Does the Master AI trade like other AIs?**
-
-YES! The Master AI:
-1. Trades daily just like training AIs
-2. Uses its evolved ruleset (best patterns from training fleet)
-3. Tracks its own performance
-
-**What makes it "Master":**
-- Updates its rules at end-of-day
-- Analyzes which patterns worked/didn't work
-- Requires more data before changing rules
-- More conservative than training AIs
-- Can spawn new training AIs to test variants
-
-**Daily workflow:**
-- Morning-Evening: Trades using current ruleset
-- End of day: Reviews all trades (Master + training fleet)
-- Decides: Keep rule, modify rule, or mark "needs more data"
-- Next day: Trades with updated rules
-
----
-
 ## Market Scanner
 
 **Q: Does Market Scanner only work when market is open?**
@@ -120,23 +96,15 @@ The AI Rulebook is always active when you have a trading strategy selected. It s
 ---
 
 ### AI Neural View
-**Q: Which AI does this refer to? How does it compare to Master AI?**
+**Q: Which AI does this view represent?**
 
-"AI Neural View" shows YOUR PERSONAL AI's learning state:
+"AI Neural View" shows **your** personal AI learning state:
 - Evolution notifications
 - Earned names
 - Drift statistics
 - Learning weights
 
-**Personal AI vs Master AI:**
-- **Personal AI:** Your individual AI that learns from your trades
-- **Master AI:** (Admin only) Fleet-wide AI that learns from ALL training accounts
-- **Training AIs:** Sandbox accounts that test strategies with play money
-
-Think of it as:
-- **You** have 1 Personal AI (learns from your real trading decisions)
-- **Master AI** oversees the training fleet (admins only)
-- **Training Fleet** = 10-100 AI accounts training 24/7
+It reflects how the system adapts based on **your** activity and outcomes. Training accounts (paper bots) use separate per-account strategy and evolution settings.
 
 ---
 
@@ -267,15 +235,10 @@ AIs don't know they have unlimited funds - they manage risk as if it's real mone
 
 ---
 
-## Recommended Next Steps
+## Suggested product follow-ups (engineering backlog)
 
-1. ✅ Admin set to usmchayward@yahoo.com
-2. ✅ Admin dashboard removed from nav
-3. ✅ Paper trading fixed
-4. ✅ Journal entries fixed
-5. ✅ Fibonacci strategy available
-6. 🔄 Add 1-minute chart timeframes
-7. 🔄 Implement real-time data simulation for training AIs
-8. 🔄 Add auto-scan interval option (optional feature)
+1. Add 1-minute chart timeframes where intraday data is available
+2. Optional progressive bar replay for training simulators (minute-by-minute ticks)
+3. Optional configurable auto-scan intervals for Live Signals / background runner
 
-The system is now fully functional with personality-based AI training, bankruptcy protection, and multi-strategy support!
+Core flows include personality-based training AI parameters, bankruptcy protection, and multi-strategy scans.

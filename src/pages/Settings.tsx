@@ -37,13 +37,12 @@ function NotifIcon({ type }: { type: EvolutionNotification['type'] }) {
 }
 
 export default function Settings() {
-  const { user, isAdmin } = useAuth()
+  const { user } = useAuth()
   const [baseStrategies, setBaseStrategies] = useState<StrategyConfig[]>([])
   const [libraryStrategyId, setLibraryStrategyId] = useState<string>('')
   const [activeGuide, setActiveGuide] = useState<StrategyGuide | null>(null)
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
   const [saveMessage, setSaveMessage] = useState('')
-  const [adminClaiming, setAdminClaiming] = useState(false)
   const [aiIdentity, setAiIdentity] = useState<AIIdentity | null>(null)
   const [notifications, setNotifications] = useState<EvolutionNotification[]>([])
   const [goals] = useState<AIGoals>(evolutionTracker.getGoals())
@@ -185,26 +184,6 @@ export default function Settings() {
     }
   }
 
-  const claimMasterAdmin = async () => {
-    if (!user) return
-    setAdminClaiming(true)
-    setSaveMessage('')
-    try {
-      const { error } = await supabase.from('admin_users').insert({
-        user_id: user.id,
-        granted_by: user.id,
-      })
-      if (error) {
-        setSaveMessage(`Failed to claim Master Admin: ${error.message}`)
-      } else {
-        setSaveMessage('Master Admin enabled. Reloading...')
-        setTimeout(() => window.location.reload(), 600)
-      }
-    } finally {
-      setAdminClaiming(false)
-    }
-  }
-
   const handleAcknowledgeNotification = async (notifId: string) => {
     if (!user) return
     await evolutionTracker.acknowledgeNotification(user.id, notifId)
@@ -244,27 +223,6 @@ export default function Settings() {
           Preferences and documentation. Active scan strategies are configured under AI Recommendations and Live Signals.
         </p>
       </div>
-
-      {!isAdmin && user && (
-        <div className="bg-slate-800 rounded-lg border border-slate-700 p-5">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h2 className="text-lg font-semibold text-white">Enable Master AI (admin)</h2>
-              <p className="text-sm text-slate-400 mt-1">
-                If no admin exists yet, you can claim the first Master Admin seat. After that, only an existing admin can grant access.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={claimMasterAdmin}
-              disabled={adminClaiming}
-              className="px-4 py-2 bg-amber-500 text-slate-900 font-semibold rounded-lg hover:bg-amber-400 transition-colors disabled:opacity-50"
-            >
-              {adminClaiming ? 'Enabling...' : 'Claim Master Admin'}
-            </button>
-          </div>
-        </div>
-      )}
 
       {saveMessage && (
         <div

@@ -1,36 +1,4 @@
-# Feature Guide: Master AI & Advanced Systems
-
-## Master AI Tab
-
-### Overview
-The Master AI synthesizes insights from all user AI instances to create a collective intelligence. It's only available to admin users.
-
-### Key Features
-
-#### 1. **Snapshot**
-- **What it does**: Creates a permanent record of the current Master AI state, including all weight adjustments, boost reports, and synthesis data
-- **When to use**: Before major strategy changes, after significant learning periods, or to preserve a well-performing configuration
-- **How it works**: Click "Snapshot" to save the current state to the database with a timestamp
-- **Access**: View past snapshots in the dropdown to compare how the Master AI has evolved
-
-#### 2. **Sync Now**
-- **What it does**: Immediately pulls data from all active training accounts and re-synthesizes the Master AI
-- **When to use**: After training accounts complete significant trading sessions, or when you want fresh collective insights
-- **How it works**: Aggregates all user AI drift, learned adjustments, and performance data to update Master AI weights
-- **Note**: The system auto-syncs every 30 minutes, but manual sync gives you immediate updates
-
-#### 3. **Run Review (End of Day)**
-- **What it does**: Comprehensive analysis of all AI performance for the day
-- **When to use**: After market close (typically 4:00 PM ET)
-- **Process**:
-  1. Analyzes all trades executed by training accounts
-  2. Identifies top performers and underperformers
-  3. Updates Master AI synthesis with strongest patterns
-  4. Generates boost reports showing which adjustments worked
-  5. Creates snapshot automatically if significant improvements detected
-- **Best Practice**: Run this once daily after market close when all positions are settled
-
----
+# Feature Guide: Advanced Systems
 
 ## Real World Events Tab
 
@@ -297,7 +265,7 @@ Adaptive Accounts:
 - Performance summaries saved to database
 - Compare multiple historical runs
 - Identify which strategies work in which market conditions
-- Feed learnings back to Master AI
+- Apply learnings to strategy tuning and overlays as you iterate
 
 ### Iterative Testing Strategy
 
@@ -336,17 +304,17 @@ Adaptive Accounts:
 **Daily Routine**:
 1. Morning: Review Live Signals and Real World Events calendar
 2. During market: Monitor training accounts, note any anomalies
-3. After close: Run "End of Day Review" in Master AI
+3. After close: Review trades and scan results for the session
 4. Evening: Scan for Anomalies, log any significant events
 
 **Weekly Routine**:
-1. Run Pattern Discovery on all training accounts
+1. Run Pattern Discovery on training accounts as needed
 2. Review new observations, promote strong patterns
 3. Check Historical Fleet for any completed runs
-4. Update Master AI with learnings
+4. Fold solid findings into strategy or overlay adjustments
 
 **Monthly Routine**:
 1. Create new Historical Fleet run for different market era
-2. Snapshot Master AI state before major changes
+2. Export or note baseline metrics before major strategy changes
 3. Review Pattern Catalog, enable prediction for validated patterns
 4. Analyze which strategies performed best across eras

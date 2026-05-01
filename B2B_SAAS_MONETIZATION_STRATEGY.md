@@ -30,7 +30,7 @@ Your Platform (Single Codebase)
 │  ├─ 10 professor/admin seats
 │  ├─ Isolated database schema
 │  ├─ Custom branding (optional)
-│  └─ Their own Master AI instance
+│  └─ Their own isolated AI learning environment
 │
 ├─ Institution B (UCLA Economics Dept)
 │  ├─ 200 student seats
@@ -2461,26 +2461,20 @@ Path to Exit:
 
 ---
 
-## The Moat: Master AI Learning Network
+## The moat: aggregated learning across tenants (optional product strategy)
 
 ```
-Your Competitive Advantage:
+Conceptual network advantage:
 
-As more schools join, the Master AI learns from MORE students:
-├─ 10 schools: 2,000 students → AI learns 2k trading patterns
-├─ 50 schools: 15,000 students → AI learns 15k patterns
-└─ 100 schools: 30,000 students → AI has seen it all
+As more institutions participate (only where privacy policy and contracts allow pooled analytics):
+├─ Larger aggregate sample → richer pattern libraries → better educational outcomes
+├─ Institutions still retain isolated tenant data by default
+└─ Any cross-tenant learning must be explicit, consent-based, and compliant
 
-Network Effect:
-├─ More students → Better AI → Better outcomes → More schools want it
-└─ Competitors can't replicate without the data
-
-This is your moat. This is what makes it defensible.
-
-Just like:
+Parallel analogies:
 ├─ Duolingo: More learners → Better language models
 ├─ Grammarly: More writers → Better grammar detection
-└─ You: More student traders → Better trading education AI
+└─ Trading education: More structured practice → Better feedback loops
 ```
 
 ---

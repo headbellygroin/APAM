@@ -14,6 +14,9 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+/** Built-in master-admin emails (plus optional VITE_MASTER_ADMIN_EMAILS comma list). */
+const DEFAULT_MASTER_ADMIN_EMAILS = ['master@trading.com', 'usmchayward@yahoo.com'] as const
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
@@ -24,15 +27,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const envList = (import.meta.env.VITE_MASTER_ADMIN_EMAILS as string | undefined) ?? ''
     const envEmails = envList
       .split(',')
-      .map(s => s.trim().toLowerCase())
+      .map((s) => s.trim().toLowerCase())
       .filter(Boolean)
+    const masters = new Set<string>([
+      ...DEFAULT_MASTER_ADMIN_EMAILS.map((e) => e.toLowerCase()),
+      ...envEmails,
+    ])
 
-    if (email) {
-      const normalized = email.trim().toLowerCase()
-      if (normalized === 'master@trading.com' || envEmails.includes(normalized)) {
-        setIsAdmin(true)
-        return
-      }
+    if (email && masters.has(email.trim().toLowerCase())) {
+      setIsAdmin(true)
+      return
     }
 
     const { data } = await supabase

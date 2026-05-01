@@ -10,14 +10,6 @@
 | **Deduping** | Live Signals + background runner skip insert if an **active** signal already exists for same **`symbol` + `strategy_id`** |
 | **Charts** | Daily overlays use **first** ID in the saved list for curve/trend/zones |
 
-## Master AI Tab - Key Actions
-
-| Action | Purpose | When to Use |
-|--------|---------|-------------|
-| **Snapshot** | Save current Master AI state permanently | Before major changes, monthly backups, after good performance |
-| **Sync Now** | Pull latest data from all training accounts | After training sessions, when you want fresh insights |
-| **Run Review** | End-of-day comprehensive analysis | Daily after market close (4 PM ET) |
-
 ## Real World Events - Workflow
 
 ### 1. Anomalies Tab
@@ -148,7 +140,7 @@ Adaptive Accounts:
 - Note unusual behavior
 
 **After Close** (Post 4 PM)
-- Run "End of Day Review" in Master AI
+- Review session trades and any automated scans
 - Scan for Anomalies
 - Log any significant events
 
@@ -161,7 +153,7 @@ Adaptive Accounts:
 
 ## Monthly Workflow
 
-1. Snapshot Master AI
+1. Capture baseline metrics before large strategy changes
 2. Launch new Historical Fleet run
 3. Review overall strategy performance
 4. Adjust based on learnings

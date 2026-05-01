@@ -28,7 +28,7 @@ Configure `.env` with `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (see **[P
 |------|----------|
 | [PLATFORM_OVERVIEW.md](./PLATFORM_OVERVIEW.md) | User-facing features & flows |
 | [AI_SYSTEM_DOCUMENTATION.md](./AI_SYSTEM_DOCUMENTATION.md) | Architecture, AI engine, schema notes (**no secrets** — use `.env`) |
-| [FEATURE_GUIDE.md](./FEATURE_GUIDE.md) | Master AI, anomaly/events workflows |
+| [FEATURE_GUIDE.md](./FEATURE_GUIDE.md) | Advanced workflows (events, anomalies, fleet tooling) |
 | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) | Short operational cheatsheets |
 | [SYSTEM_FEATURES.md](./SYSTEM_FEATURES.md) | Q&A style capability notes |
 | [STRATEGY_OVERLAY_DESIGN.md](./STRATEGY_OVERLAY_DESIGN.md) | Overlay model & DB intent |
