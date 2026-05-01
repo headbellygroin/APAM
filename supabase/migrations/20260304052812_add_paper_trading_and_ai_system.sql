@@ -88,7 +88,7 @@
 -- Create paper_accounts table
 CREATE TABLE IF NOT EXISTS paper_accounts (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
   name text NOT NULL,
   starting_balance decimal(12,2) NOT NULL,
   current_balance decimal(12,2) NOT NULL,
@@ -124,7 +124,7 @@ CREATE POLICY "Users can delete own paper accounts"
 -- Create simulated_trades table
 CREATE TABLE IF NOT EXISTS simulated_trades (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
   paper_account_id uuid REFERENCES paper_accounts(id) ON DELETE CASCADE NOT NULL,
   symbol text NOT NULL,
   trade_type text NOT NULL CHECK (trade_type IN ('long', 'short')),
@@ -173,7 +173,7 @@ CREATE POLICY "Users can delete own simulated trades"
 -- Create ai_recommendations table
 CREATE TABLE IF NOT EXISTS ai_recommendations (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
   symbol text NOT NULL,
   action text NOT NULL CHECK (action IN ('long', 'short', 'no_action')),
   confidence_score decimal(4,2) DEFAULT 0,
@@ -215,7 +215,7 @@ CREATE POLICY "Users can delete own ai recommendations"
 -- Create ai_learning_history table
 CREATE TABLE IF NOT EXISTS ai_learning_history (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
   event_type text NOT NULL,
   performance_metric decimal(8,4),
   adjustments jsonb DEFAULT '{}'::jsonb,
@@ -237,7 +237,7 @@ CREATE POLICY "Users can insert own ai learning history"
 -- Create market_scans table
 CREATE TABLE IF NOT EXISTS market_scans (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
   scan_type text NOT NULL,
   timeframe text NOT NULL,
   min_score decimal(4,2) DEFAULT 7,

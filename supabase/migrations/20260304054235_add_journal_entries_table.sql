@@ -29,7 +29,7 @@
 -- Create journal_entries table
 CREATE TABLE IF NOT EXISTS journal_entries (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
   symbol text,
   trade_date date NOT NULL DEFAULT CURRENT_DATE,
   trade_type text CHECK (trade_type IN ('long', 'short')),
